@@ -1,0 +1,87 @@
+@startuml
+
+package dev.orion.bot.model {
+
+    Activity "0..*" -- "1..*" User : group  
+    Activity "0..*" -- "1" User : owner  
+    Activity "1" -- "0..*" Content : history
+    Activity "0..*" -- "1" Editor : uses
+    User "1" -- "0..*" Content : writes
+    Content "0..*" -- "1" Editor : created by
+
+    class User{
+        -String hashUser
+        - String name
+        - String e-mail
+    }
+
+    class Activity{
+        -String alias;
+        - ActivityFlow name
+    }
+
+    class Content {
+        - String contet
+        - Date date
+    }
+
+    class Editor{
+        - EditorType type
+    }
+
+}
+
+package dev.orion.bot.commands {
+
+    Command <|-- CreateActivity
+    Command <|-- Participace
+    Command <|-- JoinActivity
+    Command <|-- CheckStatus
+    Command <|-- ListActivities
+    
+    abstract Command {
+        + {abstract} void executeCommand(MessageCreateEvent event);
+        + {abstract} String getHelp()
+    }
+
+    Class CreateActivity {}
+
+    Class Participace {}
+
+    Class JoinActivity {}
+
+    Class CheckStatus {}
+
+    Class ListActivities {}
+
+}
+
+package dev.orion.bot {
+
+    App *-- OrionBot
+    OrionBot o--> Command
+
+    class App{
+    --
+    + void main(String[] args)
+    }
+
+    class OrionBot {
+        - Map<String, Command> commands
+        - String discordToken
+    --
+        + void listen()
+        + String getCommand(MessageCreateEvent event)
+        + Command selectCommand(String name)
+        - void loadCommands()
+    }
+
+}
+
+
+
+
+
+
+
+@enduml

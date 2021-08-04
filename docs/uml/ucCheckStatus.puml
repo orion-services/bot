@@ -1,0 +1,9 @@
+@startuml
+
+title Check Status: use case normal flow
+
+User --> Bot: types: !o status alias
+Bot --> Activity: sends the alias
+Activity --> Bot: returns the status of each user (contributing, waiting, blocked, etc.) 
+Bot --> User: returns the status of each user
+@enduml

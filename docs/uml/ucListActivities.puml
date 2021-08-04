@@ -1,0 +1,9 @@
+@startuml
+
+title List Activities: use case normal flow
+
+User --> Bot: types: !o list
+Bot --> Activity: sends the id of the user
+Activity --> Bot: returns all activities of the user
+Bot --> User: returns all activities of the user
+@enduml

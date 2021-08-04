@@ -1,0 +1,14 @@
+@startuml
+
+title Create Activity: use case normal flow
+
+User --> Bot: types: !o create alias
+Bot --> Activity: query about the types of activity availables
+Activity --> Bot: sends the activities available
+Bot --> User: sends the activities available
+User --> Bot: chooses one type of activity
+Bot --> Activity: requests to create an activity with the alias
+Activity --> Bot: creates the activity and returns/confirm the alias
+Bot --> User: returns/confirm the alias
+User --> Others: share the alias of an activity to join the collegues
+@enduml
