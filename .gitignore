@@ -1,0 +1,11 @@
+target/
+.settings/
+.project/
+.vscode/
+.factorypath/
+.classpath
+.github
+.DS_Store
+.factorypath
+.apt_generated_tests
+.settings
