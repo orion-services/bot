@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class OrionBot {
 
-    private final String token = "";
+    private final String token = "ODU2MjUwMTM4MDYyMzU2NDkx.YM-TFQ.dya5FBOMQdPkCgbIZmJ9_Mj_6ug";
     private DiscordClient client;
     private GatewayDiscordClient gateway;
 
@@ -56,7 +56,7 @@ public class OrionBot {
                 command.execute(message);
             }
         });
-        gateway.onDisconnect().block();
+        //gateway.onDisconnect().block();
     }
 
     /**

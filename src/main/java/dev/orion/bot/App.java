@@ -5,15 +5,16 @@ import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 
 @QuarkusMain
-public class App implements QuarkusApplication {
-
-    @Override
-    public int run(String... args) throws Exception {
-        System.out.println("Orion Bot");
-        OrionBot bot = new OrionBot();
-        bot.start();
-        Quarkus.waitForExit(); 
-        return 0;
+public class App {
+    public static void main(String... args) {
+        Quarkus.run(Bot.class, args);
     }
-    
+    public static class Bot implements QuarkusApplication {
+
+        @Override
+        public int run(String... args) throws Exception {
+            Quarkus.waitForExit();
+            return 0;
+        }
+    }
 }
