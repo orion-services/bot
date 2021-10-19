@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class OrionBot {
 
-    private final String token = "ODU2MjUwMTM4MDYyMzU2NDkx.YM-TFQ.dya5FBOMQdPkCgbIZmJ9_Mj_6ug";
+    private final String token = "ODU2MjUwMTM4MDYyMzU2NDkx.YM-TFQ.8EBd1FeCIUPPOQhfMXw-ph3P6ss";
     private DiscordClient client;
     private GatewayDiscordClient gateway;
 
