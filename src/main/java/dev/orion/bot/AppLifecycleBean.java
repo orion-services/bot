@@ -14,7 +14,7 @@ public class AppLifecycleBean {
 
     void onStart(@Observes StartupEvent ev) {               
         LOGGER.info("The application is starting...");
-        new OrionBot().start();;
+        new OrionBot().start();
     }
 
     void onStop(@Observes ShutdownEvent ev) {               
