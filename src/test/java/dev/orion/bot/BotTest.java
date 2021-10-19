@@ -16,18 +16,10 @@
 
 package dev.orion.bot;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.Test;
-
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
 public class BotTest {
     
-    @Test
-    public void pingTest() {
-        assertTrue(true);
-    }
-    
+  
 }
