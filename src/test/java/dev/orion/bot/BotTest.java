@@ -1,15 +1,3 @@
-package dev.orion.bot;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-
-import dev.orion.bot.commands.Ping;
-import discord4j.core.object.entity.Message;
-
 /**
  * Copyright 2021 Orion Bot @ https://github.com/orion-services/bot
  *
@@ -25,6 +13,12 @@ import discord4j.core.object.entity.Message;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package dev.orion.bot;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
