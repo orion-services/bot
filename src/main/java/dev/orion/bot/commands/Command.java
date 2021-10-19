@@ -23,7 +23,7 @@ import discord4j.core.object.entity.Message;
  */
 public abstract class Command {
 
-    private String command;
+    private String name;
 
     /**
      * Executes a command.
@@ -38,11 +38,11 @@ public abstract class Command {
     public abstract String getHelp();
 
     public String getCommand() {
-        return command;
+        return name;
     }
 
     public void setCommand(String command) {
-        this.command = command;
+        this.name = command;
     }
 
 }
