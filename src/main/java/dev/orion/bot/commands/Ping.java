@@ -27,7 +27,8 @@ public class Ping extends Command {
     @Override
     public void execute(Message message) {
         final MessageChannel channel = message.getChannel().block();
-        channel.createMessage("Pong!").block();
+        if (channel != null)
+            channel.createMessage("Pong!").block();
     }
 
     @Override

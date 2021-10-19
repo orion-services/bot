@@ -50,13 +50,11 @@ public class OrionBot {
     public void start() {
         gateway.on(MessageCreateEvent.class).subscribe(event -> {
             final Message message = event.getMessage();
-            System.out.println(message.getContent());
             Command command = this.selectCommand(message.getContent());
             if (command != null) {
                 command.execute(message);
             }
         });
-        //gateway.onDisconnect().block();
     }
 
     /**
