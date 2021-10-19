@@ -16,10 +16,18 @@
 
 package dev.orion.bot;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
 public class BotTest {
     
-  
+    @Test
+    public void test(){
+        assertEquals(1+1, 4-2);
+    }
+
 }

@@ -16,8 +16,6 @@
 
 package dev.orion.bot;
 
-import dev.orion.bot.commands.Command;
-import dev.orion.bot.commands.Ping;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
@@ -25,22 +23,25 @@ import discord4j.core.object.entity.Message;
 import java.util.HashMap;
 import java.util.Map;
 
+import dev.orion.bot.commands.Command;
+import dev.orion.bot.commands.Ping;
+
 /**
  * Orion Bot for Discord.
  */
 public class OrionBot {
 
-    private final String token = "ODU2MjUwMTM4MDYyMzU2NDkx.YM-TFQ.8EBd1FeCIUPPOQhfMXw-ph3P6ss";
+    private static final String TOKEN = "";
     private DiscordClient client;
     private GatewayDiscordClient gateway;
 
     private Map<String, Command> commands;
 
     public OrionBot() {
-        this.commands = new HashMap<String, Command>();
+        this.commands = new HashMap<>();
         this.loadCommands();
         
-        this.client = DiscordClient.create(this.token);
+        this.client = DiscordClient.create(TOKEN);
         this.gateway = client.login().block();
     }
 
