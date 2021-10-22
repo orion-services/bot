@@ -16,8 +16,6 @@
 
 package dev.orion.bot.rest;
 
-import java.util.Optional;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -28,7 +26,6 @@ import javax.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import dev.orion.bot.model.User;
-import discord4j.discordjson.possible.Possible;
 
 @Path("/api/v1/")
 @RegisterRestClient
@@ -40,6 +37,8 @@ public interface BlocksClient {
     @Produces(MediaType.APPLICATION_JSON)
     User createUser(@FormParam("name") String name);
 
-    void createUser(Possible<Optional<String>> email);
+    @POST
+    @Path("/createActivity")
+    void createActivity();
 
 }

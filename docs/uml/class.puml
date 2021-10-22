@@ -2,17 +2,24 @@
 
 package dev.orion.bot.model {
 
-    Activity "0..*" -- "1..*" User : group  
-    Activity "0..*" -- "1" User : owner  
+    User "1..*" -- "0..*" Group : joins
+    Group "1" -- "0..*" Activity : perform
+    Activity "0..*" -- "1" User : creates
+
     Activity "1" -- "0..*" Content : history
     Activity "0..*" -- "1" Editor : uses
-    User "1" -- "0..*" Content : writes
+
     Content "0..*" -- "1" Editor : created by
+    User "1" -- "0..*" Content : whites
 
     class User{
-        -String hashUser
+        - String hashUser
         - String name
         - String e-mail
+    }
+
+    class Group{
+        - String name
     }
 
     class Activity{
@@ -34,17 +41,20 @@ package dev.orion.bot.model {
 package dev.orion.bot.commands {
 
     Command <|-- CreateActivity
+    Command <|-- CreateGroup
     Command <|-- Participace
     Command <|-- JoinActivity
     Command <|-- CheckStatus
     Command <|-- ListActivities
-    
+
     abstract Command {
         + {abstract} void executeCommand(MessageCreateEvent event);
         + {abstract} String getHelp()
     }
 
     Class CreateActivity {}
+
+    Class CreateGroup {}
 
     Class Participace {}
 
@@ -78,8 +88,22 @@ package dev.orion.bot {
 
 }
 
+package dev.orion.bot.rest {
 
+    CreateActivity *--> BlocksClient
+    CreateGroup *--> BlocksClient
+    Participace *--> BlocksClient
+    JoinActivity *--> BlocksClient
+    CheckStatus *--> BlocksClient
+    ListActivities *--> BlocksClient
 
+    class BlocksClient {
+    --
+        + User createUser(String name);
+        + Activity createActivity();
+    }
+
+}
 
 
 

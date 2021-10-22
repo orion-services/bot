@@ -16,31 +16,47 @@
 
 package dev.orion.bot;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import dev.orion.bot.commands.Command;
+import dev.orion.bot.commands.CreateActivity;
+import dev.orion.bot.commands.CreateUser;
+import dev.orion.bot.commands.Ping;
+import dev.orion.bot.rest.BlocksClient;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import java.util.HashMap;
-import java.util.Map;
-
-import dev.orion.bot.commands.Command;
-import dev.orion.bot.commands.Ping;
 
 /**
  * Orion Bot for Discord.
  */
+@ApplicationScoped
 public class OrionBot {
 
-    private static final String TOKEN = "";
+    @Inject
+    @RestClient
+    protected BlocksClient blocks;
+
+    private static final String TOKEN = "ODU2MjUwMTM4MDYyMzU2NDkx.YM-TFQ.Q2X1_biEwbCOxfQx91ulBfO-JgY";
     private DiscordClient client;
     private GatewayDiscordClient gateway;
 
     private Map<String, Command> commands;
 
-    public OrionBot() {
+    /**
+     * Load the bot commands.
+     */
+    public void setup() {
         this.commands = new HashMap<>();
         this.loadCommands();
-        
+
         this.client = DiscordClient.create(TOKEN);
         this.gateway = client.login().block();
     }
@@ -60,7 +76,7 @@ public class OrionBot {
 
     /**
      * Returns a command.
-     * 
+     *
      * @param command
      * @return a command
      */
@@ -73,6 +89,8 @@ public class OrionBot {
      */
     private void loadCommands() {
         this.commands.put("!ping", new Ping());
+        this.commands.put("!user", new CreateUser(this.blocks));
+        this.commands.put("!create", new CreateActivity(this.blocks));
     }
 
 }
