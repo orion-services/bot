@@ -2,7 +2,7 @@
 
 title Participates: use case normal flow
 
-User --> Bot: types: !o participate alias
+User --> Bot: types: !participate alias
 Bot --> Activity: sends the alias and request an edition URL
 Activity --> Editor: requests the edition URL
 Editor --> Activity: generates and sends the edition URL (new status)

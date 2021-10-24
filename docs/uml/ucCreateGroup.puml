@@ -1,0 +1,10 @@
+@startuml
+
+title Create Group: use case normal flow
+
+User --> Bot: types: !group $alias
+Bot --> Activity: create the new group with the alias
+Activity --> Bot: sends/confirm the group alias
+Bot --> User: sends the group alinas to the user
+User --> Others: share the alias of the group for the collegues join
+@enduml

@@ -16,6 +16,8 @@
 
 package dev.orion.bot.rest;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -25,20 +27,97 @@ import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+import dev.orion.bot.model.Activity;
+import dev.orion.bot.model.Group;
 import dev.orion.bot.model.User;
 
 @Path("/api/v1/")
 @RegisterRestClient
 public interface BlocksClient {
 
+    /**
+     * Creates a User in the blocks editor service.
+     * 
+     * @param discriminator : The Discord discriminator 
+     * @return The blocks editor User object
+     */
     @POST
     @Path("/createUser")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    User createUser(@FormParam("name") String name);
+    public User createUser(@FormParam("discriminator") String discriminator);
 
+    /**
+     * Creates a group in the blocks editor service.
+     * 
+     * @param alias : An unique name of the group
+     * @return The blocks editor Group object 
+     */
+    @POST
+    @Path("/createGroup")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Group createGroup(@FormParam("alias") String alias);
+
+    /**
+     * Allow one user join in a group
+     * 
+     * @param alias : An unique name of the group
+     * @param discriminator : The Discord discriminator 
+     * @return
+     */
+    @POST
+    @Path("/joinGroup")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Group joinGroup(@FormParam("alias") String alias, @FormParam("discriminator") String discriminator);
+
+    /**
+     * Creates an activity to the group
+     * 
+     * @param alias : An unique name of the group
+     * @return The blocks editor Activity object 
+     */
     @POST
     @Path("/createActivity")
-    void createActivity();
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Activity createActivity(@FormParam("alias") String alias);
 
+    /**
+     * Returns the current locks editor Activity object of a group
+     * 
+     * @param alias : An unique name of the group
+     * @return The blocks editor Activity object 
+     */
+    @POST
+    @Path("/checkStatus")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Activity checkStatus(@FormParam("alias") String alias);
+
+    /**
+     * Asks to participates in a group activity
+     * 
+     * @param alias : An unique name of the group
+     * @return Return a URL to participates of a activity 
+     */
+    @POST
+    @Path("/checkStatus")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String participates(@FormParam("alias") String alias);
+
+    /**
+     * Lists all current activities of an user
+     * 
+     * @param discriminator : The Discord discriminator 
+     * @return Return a list of current activity of a user in all groups
+     */
+    @POST
+    @Path("/checkStatus")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Activity> listActivities(@FormParam("discriminator") String discriminator);
+    
 }
