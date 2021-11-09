@@ -23,6 +23,7 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
@@ -35,35 +36,25 @@ import dev.orion.bot.model.User;
 @RegisterRestClient
 public interface BlocksClient {
 
-    /**
-     * Creates a User in the blocks editor service.
-     * 
-     * @param discriminator : The Discord discriminator 
-     * @return The blocks editor User object
-     */
     @POST
     @Path("/createUser")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public User createUser(@FormParam("discriminator") String discriminator);
+    public User createUser(@FormParam("name") final String name, @FormParam("hashUser") final String discriminator)
+            throws WebApplicationException;
 
-    /**
-     * Creates a group in the blocks editor service.
-     * 
-     * @param alias : An unique name of the group
-     * @return The blocks editor Group object 
-     */
     @POST
-    @Path("/createGroup")
+    @Path("createGroup")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Group createGroup(@FormParam("alias") String alias);
+    public Group createGroup(@FormParam("namegroup") final String alias,
+            @FormParam("hashUser") final String discriminator) throws WebApplicationException;
 
     /**
      * Allow one user join in a group
-     * 
-     * @param alias : An unique name of the group
-     * @param discriminator : The Discord discriminator 
+     *
+     * @param alias         : An unique name of the group
+     * @param discriminator : The Discord discriminator
      * @return
      */
     @POST
@@ -74,9 +65,9 @@ public interface BlocksClient {
 
     /**
      * Creates an activity to the group
-     * 
+     *
      * @param alias : An unique name of the group
-     * @return The blocks editor Activity object 
+     * @return The blocks editor Activity object
      */
     @POST
     @Path("/createActivity")
@@ -86,9 +77,9 @@ public interface BlocksClient {
 
     /**
      * Returns the current locks editor Activity object of a group
-     * 
+     *
      * @param alias : An unique name of the group
-     * @return The blocks editor Activity object 
+     * @return The blocks editor Activity object
      */
     @POST
     @Path("/checkStatus")
@@ -98,9 +89,9 @@ public interface BlocksClient {
 
     /**
      * Asks to participates in a group activity
-     * 
+     *
      * @param alias : An unique name of the group
-     * @return Return a URL to participates of a activity 
+     * @return Return a URL to participates of a activity
      */
     @POST
     @Path("/checkStatus")
@@ -110,8 +101,8 @@ public interface BlocksClient {
 
     /**
      * Lists all current activities of an user
-     * 
-     * @param discriminator : The Discord discriminator 
+     *
+     * @param discriminator : The Discord discriminator
      * @return Return a list of current activity of a user in all groups
      */
     @POST
@@ -119,5 +110,4 @@ public interface BlocksClient {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Activity> listActivities(@FormParam("discriminator") String discriminator);
-    
 }
