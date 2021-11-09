@@ -25,7 +25,6 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import dev.orion.bot.commands.Command;
-import dev.orion.bot.commands.CreateActivity;
 import dev.orion.bot.commands.CreateUser;
 import dev.orion.bot.commands.Ping;
 import dev.orion.bot.rest.BlocksClient;
@@ -44,7 +43,7 @@ public class OrionBot {
     @RestClient
     protected BlocksClient blocks;
 
-    private static final String TOKEN = "ODU2MjUwMTM4MDYyMzU2NDkx.YM-TFQ.Q2X1_biEwbCOxfQx91ulBfO-JgY";
+    private static final String TOKEN = "";
     private DiscordClient client;
     private GatewayDiscordClient gateway;
 
@@ -90,7 +89,6 @@ public class OrionBot {
     private void loadCommands() {
         this.commands.put("!ping", new Ping());
         this.commands.put("!user", new CreateUser(this.blocks));
-        this.commands.put("!create", new CreateActivity(this.blocks));
     }
 
 }
