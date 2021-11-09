@@ -2,7 +2,7 @@
 
 title Join Activity: use case normal flow
 
-User --> Bot: types: !o join alias
+User --> Bot: types: !join alias
 Bot --> Activity: sends the alias and the user id
 Activity --> Bot: confirms and returns the status of each user (contributing, waiting, blocked, etc.) 
 Bot --> User:  confirms and returns the status of each user

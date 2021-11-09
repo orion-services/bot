@@ -16,42 +16,47 @@
 
 package dev.orion.bot.commands;
 
+import javax.ws.rs.WebApplicationException;
+
+import dev.orion.bot.model.Group;
 import dev.orion.bot.rest.BlocksClient;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
 
 /**
- * Create User.
+ * Create Group.
  */
-public class CreateActivity extends Command {
+public class CreateGroup extends Command {
 
     protected BlocksClient blocks;
 
-    public CreateActivity(BlocksClient blocks) {
+    public CreateGroup(BlocksClient blocks) {
         this.blocks = blocks;
     }
 
     @Override
     public void execute(Message message) {
 
-        String returnMessage;
+        String alias = message.getContent().toLowerCase().split(" ")[1];
+        String discriminator = message.getUserData().discriminator();
 
-        if (this.blocks != null) {
-            this.blocks.createActivity();
-            returnMessage = "aaa";
-
-        } else {
-            returnMessage = "Service down";
+        String returnMessage = null;
+        try {
+            Group group = blocks.createGroup(alias, discriminator);
+            returnMessage = "Group created: " + group.getName();
+        } catch (WebApplicationException e) {
+            returnMessage = e.getResponse().readEntity(String.class);
         }
 
         final MessageChannel channel = message.getChannel().block();
         if (channel != null)
             channel.createMessage(returnMessage).block();
+
     }
 
     @Override
     public String getHelp() {
-        return "!create - the bot will create the user in the service";
+        return "!group alias - the bot will create a group with the alias";
     }
 
 }

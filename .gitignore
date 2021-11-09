@@ -8,3 +8,4 @@ target/
 .factorypath
 .apt_generated_tests
 .settings
+.history

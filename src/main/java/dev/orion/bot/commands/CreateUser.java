@@ -16,6 +16,9 @@
 
 package dev.orion.bot.commands;
 
+import javax.ws.rs.WebApplicationException;
+
+import dev.orion.bot.model.User;
 import dev.orion.bot.rest.BlocksClient;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
@@ -35,12 +38,16 @@ public class CreateUser extends Command {
     @Override
     public void execute(Message message) {
 
-        String returnMessage;
+        String returnMessage = null;
         UserData author = message.getUserData();
 
         if (this.blocks != null) {
-            this.blocks.createUser(author.username() + "#" + author.discriminator());
-            returnMessage = author.username() + "#" + author.discriminator();
+            try {
+                User user = this.blocks.createUser(author.username(), author.discriminator());
+                returnMessage = "User created: " + user.getName();
+            } catch (WebApplicationException e) {
+                returnMessage = e.getResponse().readEntity(String.class);
+            }
         } else {
             returnMessage = "Service down";
         }
@@ -52,7 +59,7 @@ public class CreateUser extends Command {
 
     @Override
     public String getHelp() {
-        return "!create - the bot will create the user in the service";
+        return "!user - the bot will create the user in the service";
     }
 
 }
