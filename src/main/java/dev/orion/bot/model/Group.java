@@ -16,35 +16,26 @@
 
 package dev.orion.bot.model;
 
-public class User {
+public class Group {
 
-    private long id;
+    private Long id;
 
     private String name;
 
-    public User(String name) {
-        super();
-        this.name = name;
+    public Long getId() {
+        return id;
     }
 
-    public User() {
-        super();
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public long getId() {
-        return this.id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
 }

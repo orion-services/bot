@@ -2,7 +2,7 @@
 
 title Create Activity: use case normal flow
 
-User --> Bot: types: !o create alias
+User --> Bot: types: !create alias
 Bot --> Activity: query about the types of activity availables
 Activity --> Bot: sends the activities available
 Bot --> User: sends the activities available

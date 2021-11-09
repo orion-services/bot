@@ -18,48 +18,45 @@ package dev.orion.bot.commands;
 
 import javax.ws.rs.WebApplicationException;
 
-import dev.orion.bot.model.User;
+import dev.orion.bot.model.Group;
 import dev.orion.bot.rest.BlocksClient;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
-import discord4j.discordjson.json.UserData;
 
 /**
- * Create User.
+ * Create Group.
  */
-public class CreateUser extends Command {
+public class CreateGroup extends Command {
 
     protected BlocksClient blocks;
 
-    public CreateUser(BlocksClient blocks) {
+    public CreateGroup(BlocksClient blocks) {
         this.blocks = blocks;
     }
 
     @Override
     public void execute(Message message) {
 
-        String returnMessage = null;
-        UserData author = message.getUserData();
+        String alias = message.getContent().toLowerCase().split(" ")[1];
+        String discriminator = message.getUserData().discriminator();
 
-        if (this.blocks != null) {
-            try {
-                User user = this.blocks.createUser(author.username(), author.discriminator());
-                returnMessage = "User created: " + user.getName();
-            } catch (WebApplicationException e) {
-                returnMessage = e.getResponse().readEntity(String.class);
-            }
-        } else {
-            returnMessage = "Service down";
+        String returnMessage = null;
+        try {
+            Group group = blocks.createGroup(alias, discriminator);
+            returnMessage = "Group created: " + group.getName();
+        } catch (WebApplicationException e) {
+            returnMessage = e.getResponse().readEntity(String.class);
         }
 
         final MessageChannel channel = message.getChannel().block();
         if (channel != null)
             channel.createMessage(returnMessage).block();
+
     }
 
     @Override
     public String getHelp() {
-        return "!user - the bot will create the user in the service";
+        return "!group alias - the bot will create a group with the alias";
     }
 
 }

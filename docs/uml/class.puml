@@ -3,6 +3,11 @@
 package dev.orion.bot.model {
 
     User "1..*" -- "0..*" Group : joins
+
+    Group "1" -- "1..*" Status : belongs 
+    User "1" -- "0..*" Status: has
+
+    User "1*" -- "0..*" Group : establishs
     Group "1" -- "0..*" Activity : perform
     Activity "0..*" -- "1" User : creates
 
@@ -10,7 +15,11 @@ package dev.orion.bot.model {
     Activity "0..*" -- "1" Editor : uses
 
     Content "0..*" -- "1" Editor : created by
-    User "1" -- "0..*" Content : whites
+    User "1" -- "0..*" Content : writes
+
+    class Group{
+        - String alias
+    }
 
     class User{
         - String hashUser
@@ -18,13 +27,9 @@ package dev.orion.bot.model {
         - String e-mail
     }
 
-    class Group{
-        - String name
-    }
-
     class Activity{
-        -String alias;
-        - ActivityFlow name
+        - Date date;
+        - enum type;
     }
 
     class Content {
@@ -33,7 +38,12 @@ package dev.orion.bot.model {
     }
 
     class Editor{
-        - EditorType type
+        - enun type
+    }
+
+    class Status{
+        - enun status
+        - Date date
     }
 
 }
@@ -104,8 +114,4 @@ package dev.orion.bot.rest {
     }
 
 }
-
-
-
-
 @enduml
