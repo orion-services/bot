@@ -44,8 +44,7 @@ public class OrionBot {
     @RestClient
     protected BlocksClient blocks;
 
-    private static final String TOKEN = "";
-    private DiscordClient client;
+    private static final String TOKEN = "ODU2MjUwMTM4MDYyMzU2NDkx.YM-TFQ.dnVYDW4ZBaoO1fKdUzqjEDhLNZI";
     private GatewayDiscordClient gateway;
 
     private Map<String, Command> commands;
@@ -57,8 +56,8 @@ public class OrionBot {
         this.commands = new HashMap<>();
         this.loadCommands();
 
-        this.client = DiscordClient.create(TOKEN);
-        this.gateway = client.login().block();
+        DiscordClient discordClient = DiscordClient.create(TOKEN);
+        this.gateway = discordClient.login().block();
     }
 
     /**
