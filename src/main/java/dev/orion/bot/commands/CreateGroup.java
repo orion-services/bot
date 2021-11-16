@@ -37,13 +37,15 @@ public class CreateGroup extends Command {
     @Override
     public void execute(Message message) {
 
-        String alias = message.getContent().toLowerCase().split(" ")[1];
-        String discriminator = message.getUserData().discriminator();
-
         String returnMessage = null;
         try {
+            String alias = message.getContent().toLowerCase().split(" ")[1];
+            String discriminator = message.getUserData().discriminator();
+
             Group group = blocks.createGroup(alias, discriminator);
             returnMessage = "Group created: " + group.getName();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            returnMessage = "Invalid command: " + this.getHelp();
         } catch (WebApplicationException e) {
             returnMessage = e.getResponse().readEntity(String.class);
         }
@@ -56,7 +58,7 @@ public class CreateGroup extends Command {
 
     @Override
     public String getHelp() {
-        return "!group alias - the bot will create a group with the alias";
+        return "!group group_name - the bot will try to create a group with name equal group_name variable.";
     }
 
 }

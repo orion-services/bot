@@ -16,24 +16,21 @@
 
 package dev.orion.bot.commands;
 
-import java.net.ConnectException;
-
 import javax.ws.rs.WebApplicationException;
 
-import dev.orion.bot.model.User;
+import dev.orion.bot.model.Group;
 import dev.orion.bot.rest.BlocksClient;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
-import discord4j.discordjson.json.UserData;
 
 /**
- * Create User.
+ * Create Group.
  */
-public class CreateUser extends Command {
+public class JoinGroup extends Command {
 
     protected BlocksClient blocks;
 
-    public CreateUser(BlocksClient blocks) {
+    public JoinGroup(BlocksClient blocks) {
         this.blocks = blocks;
     }
 
@@ -41,25 +38,27 @@ public class CreateUser extends Command {
     public void execute(Message message) {
 
         String returnMessage = null;
-        UserData author = message.getUserData();
-
         try {
-            User user = this.blocks.createUser(author.username(), author.discriminator());
-            returnMessage = "User created: " + user.getName();
+            String alias = message.getContent().toLowerCase().split(" ")[1];
+            String discriminator = message.getUserData().discriminator();
+
+            Group group = blocks.joinGroup(discriminator, alias);
+            returnMessage = "Joined: " + group.getName();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            returnMessage = "Invalid command: " + this.getHelp();
         } catch (WebApplicationException e) {
             returnMessage = e.getResponse().readEntity(String.class);
-        } catch (Exception e) {
-            returnMessage = "Service Down";
         }
 
         final MessageChannel channel = message.getChannel().block();
         if (channel != null)
             channel.createMessage(returnMessage).block();
+
     }
 
     @Override
     public String getHelp() {
-        return "!user - the bot will create the user in the service";
+        return "!join group_name - joins the user in a group identified by group_name variable.";
     }
 
 }
