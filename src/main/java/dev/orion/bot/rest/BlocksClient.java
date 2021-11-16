@@ -37,6 +37,14 @@ import dev.orion.bot.model.User;
 @RegisterRestClient
 public interface BlocksClient {
 
+        /**
+         * Creates a user in the service.
+         *
+         * @param name          The name of the user
+         * @param discriminator The Discord discriminator
+         * @return A JSON representing the User object
+         * @throws WebApplicationException
+         */
         @POST
         @Path("/createUser")
         @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -44,38 +52,46 @@ public interface BlocksClient {
         public User createUser(@FormParam("name") final String name, @FormParam("hashUser") final String discriminator)
                         throws WebApplicationException;
 
+        /**
+         * Creates a group in the service.
+         *
+         * @param groupName     The unique name of the group
+         * @param discriminator The Discord discriminator of the user
+         * @return A JSON representing the group in the service
+         * @throws WebApplicationException
+         */
         @POST
         @Path("/createGroup")
         @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
         @Produces(MediaType.APPLICATION_JSON)
-        public Group createGroup(@FormParam("namegroup") final String alias,
+        public Group createGroup(@FormParam("namegroup") final String groupName,
                         @FormParam("hashUser") final String discriminator) throws WebApplicationException;
 
         /**
-         * Allow one user join in a group
+         * Joins the a user in one group.
          *
-         * @param discriminator : The Discord discriminator
-         * @param alias         : An unique name of the group
-         * @return
+         * @param discriminator The Discord discriminator
+         * @param groupName     An unique name of the group
+         * @return A JSON representing the group object
          */
         @PUT
         @Path("/joingroup")
         @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
         @Produces(MediaType.APPLICATION_JSON)
         public Group joinGroup(@FormParam("hashUser") final String discriminator,
-                        @FormParam("namegroup") final String alias) throws WebApplicationException;
+                        @FormParam("namegroup") final String groupName) throws WebApplicationException;
 
         /**
          * Creates an activity to the group
          *
-         * @param alias : An unique name of the group
-         * @return The blocks editor Activity object
+         * @param groupName The unique name of the group
+         * @return A JSON representing the activity object
          */
         @POST
-        @Path("/createActivity")
+        @Path("createActivity")
         @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
         @Produces(MediaType.APPLICATION_JSON)
-        public Activity createActivity(@FormParam("alias") String alias);
+        public Activity createActivity(@FormParam("namegroup") final String groupName) throws WebApplicationException;
 
         /**
          * Returns the current locks editor Activity object of a group

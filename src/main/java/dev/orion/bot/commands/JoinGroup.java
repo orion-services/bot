@@ -37,13 +37,15 @@ public class JoinGroup extends Command {
     @Override
     public void execute(Message message) {
 
-        String alias = message.getContent().toLowerCase().split(" ")[1];
-        String discriminator = message.getUserData().discriminator();
-
         String returnMessage = null;
         try {
+            String alias = message.getContent().toLowerCase().split(" ")[1];
+            String discriminator = message.getUserData().discriminator();
+
             Group group = blocks.joinGroup(discriminator, alias);
             returnMessage = "Joined: " + group.getName();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            returnMessage = "Invalid command: " + this.getHelp();
         } catch (WebApplicationException e) {
             returnMessage = e.getResponse().readEntity(String.class);
         }
@@ -56,7 +58,7 @@ public class JoinGroup extends Command {
 
     @Override
     public String getHelp() {
-        return "!join alias - the bot will join the user in a group";
+        return "!join group_name - joins the user in a group identified by group_name variable.";
     }
 
 }
