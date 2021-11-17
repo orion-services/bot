@@ -94,6 +94,21 @@ public interface BlocksClient {
         public Activity createActivity(@FormParam("namegroup") final String groupName) throws WebApplicationException;
 
         /**
+         * Participates of one activity in a group
+         *
+         * @param discriminator The Discord discriminator
+         * @param groupName     The name of the group in the bot
+         * @return One URL for the user participates
+         * @throws WebApplicationException
+         */
+        @PUT
+        @Path("/participates")
+        @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+        @Produces(MediaType.TEXT_PLAIN)
+        public String participates(@FormParam("hashUser") final String discriminator,
+                        @FormParam("namegroup") final String groupName) throws WebApplicationException;
+
+        /**
          * Returns the current locks editor Activity object of a group
          *
          * @param alias : An unique name of the group
@@ -104,18 +119,6 @@ public interface BlocksClient {
         @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
         @Produces(MediaType.APPLICATION_JSON)
         public Activity checkStatus(@FormParam("alias") String alias);
-
-        /**
-         * Asks to participates in a group activity
-         *
-         * @param alias : An unique name of the group
-         * @return Return a URL to participates of a activity
-         */
-        @POST
-        @Path("/checkStatus")
-        @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-        @Produces(MediaType.TEXT_PLAIN)
-        public String participates(@FormParam("alias") String alias);
 
         /**
          * Lists all current activities of an user
