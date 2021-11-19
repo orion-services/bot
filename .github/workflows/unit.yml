@@ -26,4 +26,4 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Build with Maven
-      run: ./mvnw compile quarkus:test -Ddiscord.token=${{ DISCORD }}
+      run: ./mvnw compile quarkus:test -Ddiscord.token=${{ secrets.DISCORD }}
