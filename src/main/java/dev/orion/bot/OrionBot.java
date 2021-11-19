@@ -22,6 +22,7 @@ import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import dev.orion.bot.commands.Command;
@@ -43,23 +44,29 @@ import discord4j.core.object.entity.Message;
 @ApplicationScoped
 public class OrionBot {
 
+    /* Thr Discord token */
+    @ConfigProperty(name = "discord.token", defaultValue = "")
+    private String token;
+
+    /* Map of bot commands */
+    private Map<String, Command> commands;
+
+    /* REST client with blockly service */
     @Inject
     @RestClient
     protected BlocksClient blocks;
 
-    private static final String TOKEN = "ODU2MjUwMTM4MDYyMzU2NDkx.YM-TFQ.fgMnvbHrLd4qd3RJJmG5Ufa-8kc";
+    /* Discord gateway */
     private GatewayDiscordClient gateway;
 
-    private Map<String, Command> commands;
-
     /**
-     * Load the bot commands.
+     * Load the bot's commands.
      */
     public void setup() {
         this.commands = new HashMap<>();
         this.loadCommands();
 
-        DiscordClient discordClient = DiscordClient.create(TOKEN);
+        DiscordClient discordClient = DiscordClient.create(token);
         this.gateway = discordClient.login().block();
     }
 
