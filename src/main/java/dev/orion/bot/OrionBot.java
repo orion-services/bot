@@ -18,6 +18,8 @@ package dev.orion.bot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -44,9 +46,13 @@ import discord4j.core.object.entity.Message;
 @ApplicationScoped
 public class OrionBot {
 
+    /* Logger */
+    private static final Logger LOGGER = Logger.getLogger(OrionBot.class.getName());
+
     /* Thr Discord token */
-    @ConfigProperty(name = "discord.token", defaultValue = "")
-    private String token;
+    @Inject
+    @ConfigProperty(name = "discord.token")
+    String token;
 
     /* Map of bot commands */
     private Map<String, Command> commands;
@@ -65,22 +71,30 @@ public class OrionBot {
     public void setup() {
         this.commands = new HashMap<>();
         this.loadCommands();
-
-        DiscordClient discordClient = DiscordClient.create(token);
-        this.gateway = discordClient.login().block();
     }
 
     /**
      * Listen the users inputs.
      */
     public void start() {
-        gateway.on(MessageCreateEvent.class).subscribe(event -> {
-            final Message message = event.getMessage();
-            Command command = this.selectCommand(message.getContent().toLowerCase().split(" ")[0]);
-            if (command != null) {
-                command.execute(message);
+        try {
+            DiscordClient discordClient = DiscordClient.create(token);
+            this.gateway = discordClient.login().block();
+
+            if (this.gateway != null) {
+                this.gateway.on(MessageCreateEvent.class).subscribe(event -> {
+                    final Message message = event.getMessage();
+                    Command command = this.selectCommand(message.getContent().toLowerCase().split(" ")[0]);
+                    if (command != null) {
+                        command.execute(message);
+                    }
+                });
             }
-        });
+
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Fail to connect in Discord");
+        }
+
     }
 
     /**
@@ -103,7 +117,6 @@ public class OrionBot {
         this.commands.put("!join", new JoinGroup(this.blocks));
         this.commands.put("!activity", new CreateActivity(this.blocks));
         this.commands.put("!participates", new Participates(this.blocks));
-
     }
 
 }

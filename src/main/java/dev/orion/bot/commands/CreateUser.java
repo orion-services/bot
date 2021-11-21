@@ -16,9 +16,9 @@
 
 package dev.orion.bot.commands;
 
-import java.net.ConnectException;
-
 import javax.ws.rs.WebApplicationException;
+
+import org.apache.http.conn.HttpHostConnectException;
 
 import dev.orion.bot.model.User;
 import dev.orion.bot.rest.BlocksClient;
@@ -48,8 +48,6 @@ public class CreateUser extends Command {
             returnMessage = "User created: " + user.getName();
         } catch (WebApplicationException e) {
             returnMessage = e.getResponse().readEntity(String.class);
-        } catch (Exception e) {
-            returnMessage = "Service Down";
         }
 
         final MessageChannel channel = message.getChannel().block();
