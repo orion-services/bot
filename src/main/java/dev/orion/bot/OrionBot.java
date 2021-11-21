@@ -18,10 +18,13 @@ package dev.orion.bot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import dev.orion.bot.commands.Command;
@@ -43,37 +46,55 @@ import discord4j.core.object.entity.Message;
 @ApplicationScoped
 public class OrionBot {
 
+    /* Logger */
+    private static final Logger LOGGER = Logger.getLogger(OrionBot.class.getName());
+
+    /* Thr Discord token */
+    @Inject
+    @ConfigProperty(name = "discord.token")
+    String token;
+
+    /* Map of bot commands */
+    private Map<String, Command> commands;
+
+    /* REST client with blockly service */
     @Inject
     @RestClient
     protected BlocksClient blocks;
 
-    private static final String TOKEN = "ODU2MjUwMTM4MDYyMzU2NDkx.YM-TFQ.fgMnvbHrLd4qd3RJJmG5Ufa-8kc";
+    /* Discord gateway */
     private GatewayDiscordClient gateway;
 
-    private Map<String, Command> commands;
-
     /**
-     * Load the bot commands.
+     * Load the bot's commands.
      */
     public void setup() {
         this.commands = new HashMap<>();
         this.loadCommands();
-
-        DiscordClient discordClient = DiscordClient.create(TOKEN);
-        this.gateway = discordClient.login().block();
     }
 
     /**
      * Listen the users inputs.
      */
     public void start() {
-        gateway.on(MessageCreateEvent.class).subscribe(event -> {
-            final Message message = event.getMessage();
-            Command command = this.selectCommand(message.getContent().toLowerCase().split(" ")[0]);
-            if (command != null) {
-                command.execute(message);
+        try {
+            DiscordClient discordClient = DiscordClient.create(token);
+            this.gateway = discordClient.login().block();
+
+            if (this.gateway != null) {
+                this.gateway.on(MessageCreateEvent.class).subscribe(event -> {
+                    final Message message = event.getMessage();
+                    Command command = this.selectCommand(message.getContent().toLowerCase().split(" ")[0]);
+                    if (command != null) {
+                        command.execute(message);
+                    }
+                });
             }
-        });
+
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Fail to connect in Discord");
+        }
+
     }
 
     /**
@@ -96,7 +117,6 @@ public class OrionBot {
         this.commands.put("!join", new JoinGroup(this.blocks));
         this.commands.put("!activity", new CreateActivity(this.blocks));
         this.commands.put("!participates", new Participates(this.blocks));
-
     }
 
 }

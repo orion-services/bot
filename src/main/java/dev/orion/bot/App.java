@@ -9,6 +9,7 @@ public class App {
     public static void main(String... args) {
         Quarkus.run(Bot.class, args);
     }
+
     public static class Bot implements QuarkusApplication {
 
         @Override

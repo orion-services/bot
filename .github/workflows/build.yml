@@ -1,10 +1,15 @@
-name: Build
+
+
+name: Java CI with Maven/Failsave on Quarkus project
+
 on:
   push:
     branches:
       - main
+      - dev
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   build:
     name: Build
@@ -29,8 +34,15 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+      - name: Create application-test.properties file
+        run: |
+          cd src/main/resources
+          touch application-test.properties
+          echo discord.token=${{ secrets.DISCORD }} >> application-test.properties
+          cat application-test.properties
+          cd ../../../
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=orion-services_bot
+        run: ./mvnw -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=orion-services_bot

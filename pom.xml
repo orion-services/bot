@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>dev.orion.bot</groupId>
   <artifactId>orion-bot</artifactId>
@@ -14,7 +13,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>2.1.0.Final</quarkus.platform.version>
+    <quarkus.platform.version>2.4.0.Final</quarkus.platform.version>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.organization>orion-services</sonar.organization>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
@@ -93,6 +92,7 @@
         <version>${surefire-plugin.version}</version>
         <configuration>
           <systemPropertyVariables>
+            <quarkus.test.profile>test</quarkus.test.profile>
             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
             <maven.home>${maven.home}</maven.home>
           </systemPropertyVariables>
@@ -121,6 +121,7 @@
                 </goals>
                 <configuration>
                   <systemPropertyVariables>
+                    <quarkus.test.profile>test</quarkus.test.profile>
                     <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
                     <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                     <maven.home>${maven.home}</maven.home>

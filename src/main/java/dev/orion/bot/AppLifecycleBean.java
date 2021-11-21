@@ -12,10 +12,11 @@ import io.quarkus.runtime.StartupEvent;
 @ApplicationScoped
 public class AppLifecycleBean {
 
+    /* Logger */
+    private static final Logger LOGGER = Logger.getLogger(AppLifecycleBean.class.getName());
+
     @Inject
     OrionBot orionBot;
-
-    private static final Logger LOGGER = Logger.getLogger("ListenerBean");
 
     void onStart(@Observes StartupEvent ev) {
         LOGGER.info("The Orion Bot is starting...");
