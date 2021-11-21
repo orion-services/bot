@@ -18,8 +18,6 @@ package dev.orion.bot.commands;
 
 import javax.ws.rs.WebApplicationException;
 
-import org.apache.http.conn.HttpHostConnectException;
-
 import dev.orion.bot.model.User;
 import dev.orion.bot.rest.BlocksClient;
 import discord4j.core.object.entity.Message;

@@ -18,14 +18,16 @@ package dev.orion.bot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import dev.orion.bot.commands.Command;
+import dev.orion.bot.commands.CreateActivity;
 import dev.orion.bot.commands.CreateGroup;
 import dev.orion.bot.commands.CreateUser;
+import dev.orion.bot.commands.JoinGroup;
+import dev.orion.bot.commands.Participates;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
@@ -51,6 +53,27 @@ public class CommandTest {
     void groupCommand() {
         Command command = bot.selectCommand("!group");
         assertEquals(CreateGroup.class, command.getClass());
+    }
+
+    @Test
+    @DisplayName("Join command")
+    void joinCommand() {
+        Command command = bot.selectCommand("!join");
+        assertEquals(JoinGroup.class, command.getClass());
+    }
+
+    @Test
+    @DisplayName("Activity command")
+    void activityCommand() {
+        Command command = bot.selectCommand("!activity");
+        assertEquals(CreateActivity.class, command.getClass());
+    }
+
+    @Test
+    @DisplayName("Participates command")
+    void participatesCommand() {
+        Command command = bot.selectCommand("!participates");
+        assertEquals(Participates.class, command.getClass());
     }
 
     @Test
