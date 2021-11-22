@@ -35,7 +35,7 @@ import dev.orion.bot.model.User;
 
 @Path("/api/v1/")
 @RegisterRestClient
-public interface BlocksClient {
+public interface BlocklyClient {
 
         /**
          * Creates a user in the service.

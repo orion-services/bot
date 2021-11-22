@@ -32,9 +32,9 @@ import dev.orion.bot.commands.CreateActivity;
 import dev.orion.bot.commands.CreateGroup;
 import dev.orion.bot.commands.CreateUser;
 import dev.orion.bot.commands.JoinGroup;
-import dev.orion.bot.commands.Participates;
+import dev.orion.bot.commands.Participate;
 import dev.orion.bot.commands.Ping;
-import dev.orion.bot.rest.BlocksClient;
+import dev.orion.bot.rest.BlocklyClient;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
@@ -60,10 +60,7 @@ public class OrionBot {
     /* REST client with blockly service */
     @Inject
     @RestClient
-    protected BlocksClient blocks;
-
-    /* Discord gateway */
-    private GatewayDiscordClient gateway;
+    protected BlocklyClient blocks;
 
     /**
      * Load the bot's commands.
@@ -79,10 +76,10 @@ public class OrionBot {
     public void start() {
         try {
             DiscordClient discordClient = DiscordClient.create(token);
-            this.gateway = discordClient.login().block();
+            GatewayDiscordClient gateway = discordClient.login().block();
 
-            if (this.gateway != null) {
-                this.gateway.on(MessageCreateEvent.class).subscribe(event -> {
+            if (gateway != null) {
+                gateway.on(MessageCreateEvent.class).subscribe(event -> {
                     final Message message = event.getMessage();
                     Command command = this.selectCommand(message.getContent().toLowerCase().split(" ")[0]);
                     if (command != null) {
@@ -116,7 +113,7 @@ public class OrionBot {
         this.commands.put("!group", new CreateGroup(this.blocks));
         this.commands.put("!join", new JoinGroup(this.blocks));
         this.commands.put("!activity", new CreateActivity(this.blocks));
-        this.commands.put("!participates", new Participates(this.blocks));
+        this.commands.put("!participates", new Participate(this.blocks));
     }
 
 }

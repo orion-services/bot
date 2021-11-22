@@ -27,7 +27,7 @@ import dev.orion.bot.commands.CreateActivity;
 import dev.orion.bot.commands.CreateGroup;
 import dev.orion.bot.commands.CreateUser;
 import dev.orion.bot.commands.JoinGroup;
-import dev.orion.bot.commands.Participates;
+import dev.orion.bot.commands.Participate;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
@@ -73,7 +73,7 @@ public class CommandTest {
     @DisplayName("Participates command")
     void participatesCommand() {
         Command command = bot.selectCommand("!participates");
-        assertEquals(Participates.class, command.getClass());
+        assertEquals(Participate.class, command.getClass());
     }
 
     @Test
