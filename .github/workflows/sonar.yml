@@ -39,6 +39,7 @@ jobs:
           cd src/main/resources
           touch application-test.properties
           echo discord.token=${{ secrets.DISCORD }} >> application-test.properties
+          echo quarkus.jacoco.report-location=site/jacoco >> application-test.properties
           cat application-test.properties
           cd ../../../
       - name: Build and analyze
