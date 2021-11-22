@@ -21,7 +21,6 @@ import javax.ws.rs.WebApplicationException;
 import dev.orion.bot.model.Group;
 import dev.orion.bot.rest.BlocklyClient;
 import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.channel.MessageChannel;
 
 /**
  * Create Group.
