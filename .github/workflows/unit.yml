@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Static and Unit testing with Sonar an Maven/Surefire
+name: Unit testing with Maven/Surefire
 
 on:
   push:
@@ -22,18 +22,6 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
           cache: maven
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-            path: ~/.m2
-            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-            restore-keys: ${{ runner.os }}-m2
       - name: Create application-test.properties file
         run: |
             cd src/main/resources
@@ -42,10 +30,7 @@ jobs:
             cat application-test.properties
             cd ../../../
       - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./mvnw clean test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=orion-services_bot
+        run: ./mvnw clean test
 
 
 
