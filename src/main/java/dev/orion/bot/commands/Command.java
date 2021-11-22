@@ -16,14 +16,40 @@
 
 package dev.orion.bot.commands;
 
+import dev.orion.bot.rest.BlocklyClient;
 import discord4j.core.object.entity.Message;
+import discord4j.core.object.entity.channel.MessageChannel;
 
 /**
  * Abstract command.
  */
 public abstract class Command {
 
+    /* The name of the command */
     private String name;
+
+    /** The blockly client */
+    protected BlocklyClient blockly;
+
+    /* Constructors */
+    protected Command() {
+    }
+
+    protected Command(BlocklyClient blockly) {
+        this.blockly = blockly;
+    }
+
+    /**
+     * Sends a message to the user.
+     *
+     * @param The        discord4j message object
+     * @param strMessage The text to send to the user
+     */
+    protected void sendMessage(Message message, String strMessage) {
+        final MessageChannel channel = message.getChannel().block();
+        if (channel != null)
+            channel.createMessage(strMessage).block();
+    }
 
     /**
      * Executes a command.

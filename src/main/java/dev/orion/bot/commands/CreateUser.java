@@ -19,9 +19,8 @@ package dev.orion.bot.commands;
 import javax.ws.rs.WebApplicationException;
 
 import dev.orion.bot.model.User;
-import dev.orion.bot.rest.BlocksClient;
+import dev.orion.bot.rest.BlocklyClient;
 import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.discordjson.json.UserData;
 
 /**
@@ -29,28 +28,24 @@ import discord4j.discordjson.json.UserData;
  */
 public class CreateUser extends Command {
 
-    protected BlocksClient blocks;
-
-    public CreateUser(BlocksClient blocks) {
-        this.blocks = blocks;
+    public CreateUser(BlocklyClient blockly) {
+        super(blockly);
     }
 
     @Override
     public void execute(Message message) {
 
-        String returnMessage = null;
+        String strMessage = null;
         UserData author = message.getUserData();
 
         try {
-            User user = this.blocks.createUser(author.username(), author.discriminator());
-            returnMessage = "User created: " + user.getName();
+            User user = this.blockly.createUser(author.username(), author.discriminator());
+            strMessage = "User created: " + user.getName();
         } catch (WebApplicationException e) {
-            returnMessage = e.getResponse().readEntity(String.class);
+            strMessage = e.getResponse().readEntity(String.class);
         }
 
-        final MessageChannel channel = message.getChannel().block();
-        if (channel != null)
-            channel.createMessage(returnMessage).block();
+        this.sendMessage(message, strMessage);
     }
 
     @Override

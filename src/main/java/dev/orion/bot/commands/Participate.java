@@ -18,40 +18,35 @@ package dev.orion.bot.commands;
 
 import javax.ws.rs.WebApplicationException;
 
-import dev.orion.bot.rest.BlocksClient;
+import dev.orion.bot.rest.BlocklyClient;
 import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.channel.MessageChannel;
 
 /**
  * Participates of one Activity.
  */
-public class Participates extends Command {
+public class Participate extends Command {
 
-    protected BlocksClient blocks;
-
-    public Participates(BlocksClient blocks) {
-        this.blocks = blocks;
+    public Participate(BlocklyClient blockly) {
+        super(blockly);
     }
 
     @Override
     public void execute(Message message) {
 
-        String returnMessage = null;
+        String strMessage = null;
         try {
             String discriminator = message.getUserData().discriminator();
             String groupName = message.getContent().toLowerCase().split(" ")[1];
 
-            String url = blocks.participates(discriminator, groupName);
-            returnMessage = url;
+            String url = blockly.participates(discriminator, groupName);
+            strMessage = url;
         } catch (ArrayIndexOutOfBoundsException e) {
-            returnMessage = "Invalid command: " + this.getHelp();
+            strMessage = "Invalid command: " + this.getHelp();
         } catch (WebApplicationException e) {
-            returnMessage = e.getResponse().readEntity(String.class);
+            strMessage = e.getResponse().readEntity(String.class);
         }
 
-        final MessageChannel channel = message.getChannel().block();
-        if (channel != null)
-            channel.createMessage(returnMessage).block();
+        this.sendMessage(message, strMessage);
 
     }
 

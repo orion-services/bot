@@ -18,40 +18,34 @@ package dev.orion.bot.commands;
 
 import javax.ws.rs.WebApplicationException;
 
-import dev.orion.bot.rest.BlocksClient;
+import dev.orion.bot.rest.BlocklyClient;
 import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.channel.MessageChannel;
 
 /**
  * Create Activity.
  */
 public class CreateActivity extends Command {
 
-    protected BlocksClient blocks;
-
-    public CreateActivity(BlocksClient blocks) {
-        this.blocks = blocks;
+    public CreateActivity(BlocklyClient blockly) {
+        super(blockly);
     }
 
     @Override
     public void execute(Message message) {
 
-        String returnMessage = null;
+        String strMessage = null;
         try {
             String groupName = message.getContent().toLowerCase().split(" ")[1];
 
-            blocks.createActivity(groupName);
-            returnMessage = "Activity created";
+            blockly.createActivity(groupName);
+            strMessage = "Activity created";
         } catch (ArrayIndexOutOfBoundsException e) {
-            returnMessage = "Invalid command: " + this.getHelp();
+            strMessage = "Invalid command: " + this.getHelp();
         } catch (WebApplicationException e) {
-            returnMessage = e.getResponse().readEntity(String.class);
+            strMessage = e.getResponse().readEntity(String.class);
         }
 
-        final MessageChannel channel = message.getChannel().block();
-        if (channel != null)
-            channel.createMessage(returnMessage).block();
-
+        this.sendMessage(message, strMessage);
     }
 
     @Override
