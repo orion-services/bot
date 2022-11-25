@@ -33,7 +33,7 @@ import dev.orion.bot.model.Activity;
 import dev.orion.bot.model.Group;
 import dev.orion.bot.model.User;
 
-@Path("/api/v1/")
+@Path("/api/v1")
 @RegisterRestClient
 public interface BlocklyClient {
 
