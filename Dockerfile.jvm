@@ -7,8 +7,9 @@
 #
 # Then, build the image with:
 #
-# docker build -f Dockerfile.jvm -t username/project-bot .
+# docker build -f Dockerfile.jvm -t username/editor-bot .
 #
+# docker image push username/editor-bot
 ###
 
 FROM maven:3.8.3-openjdk-11 AS build
