@@ -13,18 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package dev.orion.bot.model;
 
 public class Activity {
 
+    /** The name of the activity. */
     private String name;
 
+    /**
+     * Returns the name of the activity.
+     *
+     * @return The name of the activity
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    /**
+     * Sets the name of the activity.
+     *
+     * @param name The name of the activity
+     */
+    public void setName(final String name) {
         this.name = name;
     }
 

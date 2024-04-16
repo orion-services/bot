@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package dev.orion.bot.commands;
 
-import javax.ws.rs.WebApplicationException;
+import jakarta.ws.rs.WebApplicationException;
 
 import dev.orion.bot.model.User;
 import dev.orion.bot.rest.BlocklyClient;
@@ -28,12 +27,22 @@ import discord4j.discordjson.json.UserData;
  */
 public class CreateUser extends Command {
 
-    public CreateUser(BlocklyClient blockly) {
+    /**
+     * Constructor.
+     *
+     * @param blockly The Blockly client
+     */
+    public CreateUser(final BlocklyClient blockly) {
         super(blockly);
     }
 
+    /**
+     * Executes the command.
+     *
+     * @param message The message
+     */
     @Override
-    public void execute(Message message) {
+    public void execute(final Message message) {
 
         String strMessage = null;
         UserData author = message.getUserData();
@@ -48,9 +57,13 @@ public class CreateUser extends Command {
         this.sendMessage(message, strMessage);
     }
 
+    /**
+     * Returns the help message.
+     *
+     * @return The help message
+     */
     @Override
     public String getHelp() {
         return "!user - the bot will create the user in the service";
     }
-
 }

@@ -13,29 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package dev.orion.bot.commands;
-
-import javax.ws.rs.WebApplicationException;
 
 import dev.orion.bot.rest.BlocklyClient;
 import discord4j.core.object.entity.Message;
+import jakarta.ws.rs.WebApplicationException;
 
 /**
  * Create Activity.
  */
 public class CreateActivity extends Command {
 
-    public CreateActivity(BlocklyClient blockly) {
+    /**
+     * Constructor.
+     * @param blockly The Blockly client
+     */
+    public CreateActivity(final BlocklyClient blockly) {
         super(blockly);
     }
 
+    /**
+     * Executes the command.
+     *
+     * @param message The message
+     */
     @Override
-    public void execute(Message message) {
+    public void execute(final Message message) {
 
         String strMessage = null;
         try {
-            String groupName = message.getContent().toLowerCase().split(" ")[1];
+            String groupName = message.getContent()
+                .toLowerCase().split(" ")[1];
 
             blockly.createActivity(groupName);
             strMessage = "Activity created";
@@ -48,9 +56,11 @@ public class CreateActivity extends Command {
         this.sendMessage(message, strMessage);
     }
 
+    /**
+     * Returns the help message.
+     */
     @Override
     public String getHelp() {
         return "!activity group_name - creates one activity for a group in the bot";
     }
-
 }

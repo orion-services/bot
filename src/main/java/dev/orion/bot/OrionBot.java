@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package dev.orion.bot;
 
 import java.util.HashMap;
@@ -21,8 +20,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -46,21 +45,22 @@ import discord4j.core.object.entity.Message;
 @ApplicationScoped
 public class OrionBot {
 
-    /* Logger */
-    private static final Logger LOGGER = Logger.getLogger(OrionBot.class.getName());
+    /** Logger. */
+    private static final Logger LOGGER =
+        Logger.getLogger(OrionBot.class.getName());
 
-    /* Thr Discord token */
+    /** REST client with blockly service. */
+    @Inject
+    @RestClient
+    protected BlocklyClient blocks;
+
+    /** The Discord token */
     @Inject
     @ConfigProperty(name = "discord.token")
     String token;
 
-    /* Map of bot commands */
+    /** Map of bot commands */
     private Map<String, Command> commands;
-
-    /* REST client with blockly service */
-    @Inject
-    @RestClient
-    protected BlocklyClient blocks;
 
     /**
      * Load the bot's commands.
@@ -71,7 +71,7 @@ public class OrionBot {
     }
 
     /**
-     * Listen the users inputs.
+     * Starts the bot.
      */
     public void start() {
         try {
@@ -79,13 +79,15 @@ public class OrionBot {
             GatewayDiscordClient gateway = discordClient.login().block();
 
             if (gateway != null) {
-                gateway.on(MessageCreateEvent.class).subscribe(event -> {
-                    final Message message = event.getMessage();
-                    Command command = this.selectCommand(message.getContent().toLowerCase().split(" ")[0]);
-                    if (command != null) {
-                        command.execute(message);
-                    }
-                });
+                gateway.on(MessageCreateEvent.class)
+                        .subscribe(event -> {
+                            final Message message = event.getMessage();
+                            Command command = this.selectCommand(
+                                    message.getContent().toLowerCase().split(" ")[0]);
+                            if (command != null) {
+                                command.execute(message);
+                            }
+                        });
             }
 
         } catch (Exception e) {
@@ -95,17 +97,17 @@ public class OrionBot {
     }
 
     /**
-     * Returns a command.
+     * Select the command to execute.
      *
-     * @param command
-     * @return a command
+     * @param command The command to execute
+     * @return The command to execute
      */
-    public Command selectCommand(String command) {
+    public Command selectCommand(final String command) {
         return this.commands.get(command);
     }
 
     /**
-     * Loads the commands in the bot.
+     * Load the bot's commands.
      */
     private void loadCommands() {
         this.commands.put("!ping", new Ping());

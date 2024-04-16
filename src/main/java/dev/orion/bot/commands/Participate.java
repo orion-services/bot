@@ -13,25 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package dev.orion.bot.commands;
-
-import javax.ws.rs.WebApplicationException;
 
 import dev.orion.bot.rest.BlocklyClient;
 import discord4j.core.object.entity.Message;
+import jakarta.ws.rs.WebApplicationException;
 
 /**
- * Participates of one Activity.
+ * Represents a command to participate in an activity in a group.
+ * Extends the base Command class.
  */
 public class Participate extends Command {
 
-    public Participate(BlocklyClient blockly) {
+    /**
+     * Constructs a new Participate command with the given BlocklyClient.
+     *
+     * @param blockly the BlocklyClient to use for participating in activities
+     */
+    public Participate(final BlocklyClient blockly) {
         super(blockly);
     }
 
+    /**
+     * Executes the Participate command.
+     *
+     * @param message the message
+     */
     @Override
-    public void execute(Message message) {
+    public void execute(final Message message) {
 
         String strMessage = null;
         try {
@@ -50,9 +59,13 @@ public class Participate extends Command {
 
     }
 
+    /**
+     * Gets the help message for the Participate command.
+     *
+     * @return the help message
+     */
     @Override
     public String getHelp() {
         return "!participates group_name - participates of one activity in a group";
     }
-
 }

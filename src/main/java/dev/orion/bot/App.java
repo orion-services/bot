@@ -6,14 +6,14 @@ import io.quarkus.runtime.annotations.QuarkusMain;
 
 @QuarkusMain
 public class App {
-    public static void main(String... args) {
+    public static void main(final String... args) {
         Quarkus.run(Bot.class, args);
     }
 
     public static class Bot implements QuarkusApplication {
 
         @Override
-        public int run(String... args) throws Exception {
+        public int run(final String... args) throws Exception {
             Quarkus.waitForExit();
             return 0;
         }

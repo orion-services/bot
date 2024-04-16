@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package dev.orion.bot.commands;
 
 import dev.orion.bot.rest.BlocklyClient;
@@ -25,17 +24,18 @@ import discord4j.core.object.entity.channel.MessageChannel;
  */
 public abstract class Command {
 
-    /* The name of the command */
+    /** The command name. */
     private String name;
 
-    /** The blockly client */
+    /** The Blockly client. */
     protected BlocklyClient blockly;
 
-    /* Constructors */
-    protected Command() {
-    }
-
-    protected Command(BlocklyClient blockly) {
+    /**
+     * Constructor.
+     *
+     * @param blockly The Blockly client
+     */
+    protected Command(final BlocklyClient blockly) {
         this.blockly = blockly;
     }
 
@@ -45,10 +45,11 @@ public abstract class Command {
      * @param The        discord4j message object
      * @param strMessage The text to send to the user
      */
-    protected void sendMessage(Message message, String strMessage) {
+    protected void sendMessage(final Message message, final String strMessage) {
         final MessageChannel channel = message.getChannel().block();
-        if (channel != null)
+        if (channel != null) {
             channel.createMessage(strMessage).block();
+        }
     }
 
     /**
@@ -67,8 +68,12 @@ public abstract class Command {
         return name;
     }
 
-    public void setCommand(String command) {
+    /**
+     * Sets the command.
+     *
+     * @param command The command
+     */
+    public void setCommand(final String command) {
         this.name = command;
     }
-
 }

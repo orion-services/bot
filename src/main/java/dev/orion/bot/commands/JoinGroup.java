@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package dev.orion.bot.commands;
 
-import javax.ws.rs.WebApplicationException;
+import jakarta.ws.rs.WebApplicationException;
 
 import dev.orion.bot.model.Group;
 import dev.orion.bot.rest.BlocklyClient;
@@ -27,16 +26,17 @@ import discord4j.core.object.entity.Message;
  */
 public class JoinGroup extends Command {
 
-    public JoinGroup(BlocklyClient blockly) {
+    public JoinGroup(final BlocklyClient blockly) {
         super(blockly);
     }
 
     @Override
-    public void execute(Message message) {
+    public void execute(final Message message) {
 
         String strMessage = null;
         try {
-            String alias = message.getContent().toLowerCase().split(" ")[1];
+            String alias = message.getContent()
+                .toLowerCase().split(" ")[1];
             String discriminator = message.getUserData().discriminator();
 
             Group group = blockly.joinGroup(discriminator, alias);
@@ -55,5 +55,4 @@ public class JoinGroup extends Command {
     public String getHelp() {
         return "!join group_name - joins the user in a group identified by group_name variable.";
     }
-
 }

@@ -13,28 +13,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package dev.orion.bot.model;
 
+/**
+ * Group.
+ */
 public class Group {
 
+    /** The ID of the group. */
     private Long id;
 
+    /** The name of the group. */
     private String name;
 
+    /**
+     * Returns the ID of the group.
+     *
+     * @return The ID of the group
+     */
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    /**
+     * Sets the ID of the group.
+     *
+     * @param id The ID of the group
+     */
+    public void setId(final Long id) {
         this.id = id;
     }
 
+    /**
+     * Returns the name of the group.
+     *
+     * @return The name of the group
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    /**
+     * Sets the name of the group.
+     * 
+     * @param name The name of the group
+     */
+    public void setName(final String name) {
         this.name = name;
     }
 

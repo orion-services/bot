@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package dev.orion.bot.commands;
 
-import javax.ws.rs.WebApplicationException;
+import jakarta.ws.rs.WebApplicationException;
 
 import dev.orion.bot.model.Group;
 import dev.orion.bot.rest.BlocklyClient;
@@ -27,12 +26,22 @@ import discord4j.core.object.entity.Message;
  */
 public class CreateGroup extends Command {
 
-    public CreateGroup(BlocklyClient blockly) {
+    /**
+     * Constructor.
+     * 
+     * @param blockly The Blockly client
+     */
+    public CreateGroup(final BlocklyClient blockly) {
         super(blockly);
     }
 
+    /**
+     * Executes the command.
+     *
+     * @param message The message
+     */
     @Override
-    public void execute(Message message) {
+    public void execute(final Message message) {
 
         String strMessage = null;
         try {
@@ -51,9 +60,11 @@ public class CreateGroup extends Command {
 
     }
 
+    /**
+     * Returns the help message.
+     */
     @Override
     public String getHelp() {
         return "!group group_name - the bot will try to create a group with name equal group_name variable.";
     }
-
 }
