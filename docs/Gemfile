@@ -1,0 +1,9 @@
+source "https://rubygems.org"
+
+# Dependências do Jekyll
+gem "jekyll", "~> 4.2"
+gem "jekyll-redirect-from"
+gem "rouge"
+
+# Dependências do tema Just-in-Docs
+gem "just-the-docs"

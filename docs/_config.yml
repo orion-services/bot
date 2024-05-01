@@ -1,3 +1,12 @@
-remote_theme: pmarsceill/just-the-docs
-logo: "/img/logo.png"
-color_scheme: dark
+theme: just-the-docs
+
+logo: "/assets/images/logo.png"
+
+aux_links:
+  "Orion Services":
+    - "https://orion-services.dev"
+  "Github":
+    - "https://github.com/orion-services/bot"
+
+# Footer content appears at the bottom of every page's main content
+footer_content: "Copyright &copy; 2024 <a href='https://orion-services.dev'>Orion Services</a>. Distributed by Apache 2.0 license."
